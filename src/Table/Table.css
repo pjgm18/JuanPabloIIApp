@@ -1,0 +1,11 @@
+.main-table-container{
+    margin: 0 auto;
+    width: 80%;
+}
+table{
+    width: 100%
+}
+.td-top{
+    font-weight: bold;
+    color: black;
+}

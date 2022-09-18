@@ -1,0 +1,214 @@
+
+
+********** App**************
+
+Como un componente puede retornar elementos u otros componentes El componente principal App retorna al componente <AppUI> que contiene todos los componentes de la aplicacion.
+Estos compoenentes hijos necesitan conocer ciertas variables y metodos de la logica de la aplicacion para cumplir con sus tareas,  por eso se retornan  dentro de un compoennte proveedor que es el que contiene el estado general o contexto.
+
+La forma como cada componente puede consumir  las variable o metodos que necesita para funcionar es mediante el HOOK React.useContext.
+En el compoente AppUI el unico componente que necesita  externamente (en su llamado) variables y metodos del contexto  es TodoList, esto porque se necesita una logica que permita mapear cada uno de los elementos (todos) contenidos en el y regresar un componente TodoItem.
+
+
+***************TodoContext*********************
+
+TodoContext es un componente especial porque tiene un contexto, es decir, tiene la logica que necesitan todos los demas componentes de la aplicacion (Los que estan AppUI). Ademas esta logica necesita los datos (persistencia)con la que va a trabajar, por eso se llama al custom HOOK de LocalStorage. 
+El componente TodoContext utiliza la funcion TodoProvider para retornar un componente (provider) que en su propiedad value comparte el estado general (propiedades y metodos) que seran consumidos en cualquier componente que envolvamos o enviemos dentro del llamado de provider en AppUI y que recibimos en su declaracion por medio de la propiedad children.
+
+Cuando creamos a TodoContext  (contexto o estado general) utilizamos el metodo React.createContext() que devuelve un objeto con dos componentes
+
+<TodoContext.Provider/>
+<TodoContext.Consumer/>
+
+Las funciones completar y eliminar son atajos para no tener que escribir la logica dentro de cada componente donde se necesite modificar la informacion, estas a su vez modifican el arreglo de todos que tenemos localmente pero despues esta informacion debe ser actualizada en el estado y en la persistencia utilizando el metodo actualizador del custo HOOK useLocalStorage.
+
+***********useLocalStorage***********
+
+useLocalStorage es un custom React Hook que nos permite encapsular la logica de como se obtienen los datos desde useLocalStorage, este Hook recibe dos parametros itemName y el valor inicial en caso de que sea la primera vez que utilzian la aplicacion.
+
+El useEffect se utiliza para hacer el llamado de la APi la primera y unica vez (get), despues que tenemos esa informacion guardada en el estado podemos modificarla comunicandonos directamente con la API (set). cuando abrimos la APP no sabemos que hay en la API porque las variables estan con un estado inicial estan reseteadas.
+Despues que se envia la informacion a la API no necesito consultarla nuevamente porque ya los  datos estan guardados localmente y se como van a quedar almacenados.
+
+Inicialmente se guarda en una variable localStorageItem la informacion que esta en la BD. Si no hay nada en la BD creamos el item con el valor inicial, si ya habia informacion entonces se parsea y se guarda en la variable. Finalmente se actauliza el estado del item y de loading.
+
+La funcion saveItem recibe un nuevo arreglo como parametro. 
+1. Stringifea el nuevo arreglo en una variable
+2. Actualiza el LocalStorage
+3. Actualzia el estado y este estado aunque esta dentro de useLocalStorage podra renderizar nuevamente la aplicacion porque estamos llamando al HOOK en App.js
+
+
+
+***************************** TodoSearch ************************************
+
+El componente TodoSearch escucha un evento de cambio en el value del imput. Es decir cada vez que se escriba algo en el imput se va a ejecutar la funcion onSearchValueImput(), esta funcion recibe un evento que por dentro tiene un target.value que es el valor del imput. Con este valor se actualiza el estado utilziando la funcion actualizadora del estado setSearchValue(event.target.value)
+
+El objetivo de actualizar el estado de TodoSearch es poder detectar los eventos (acciones) en el imput y  notificar al componente TodoList para realizar el filtro por busqueda.
+El estado de TodoList se crea en el contexto para que todos los componentes puedan escuchar este cambio. TodoSearch recicibe el estado y el metodo actualizador consumiendo el contexto.
+
+----------Filtro de Todos por busqeda---------
+
+Para realizar este filtro se crea un nuevo arreglo vacio (searchedTodos = []). Si el usuario no ha escrito nada searchedTodos es igual al arreglo original.
+
+Si se escribe algo se realiza un filtro del arreglo original.
+
+1. se crea una variable todoText que va a ser igual al texto del todo en determinada posicion pero en minuscula.
+
+2. se crea una variable para guardar el valor (texto) en minuscula del imput del usuario. (Es aqui donde entra en accion el estado del componente TodoSearch)
+
+3. Se devuelve el criterio de evaluacion utilizando el metodo includes de los Arrays para determinar si un texto contiene a otro.
+En este caso determinamos si el texto guardado en el arreglo tiene alguna letra o palabra de la que el usuario ingreso en el imput.
+Si es true guarda el todo en searchedTodos si es false sigue a la otra posicion.
+
+Finalmente se vuelve a renderizar la lista de todos con la nueva informacion del arreglo  searchedTodos
+
+***************************** TodoList ************************************
+
+
+El componente TodoList devuelve una lista ul que por dentro recibe por medio de la propiedad children en su llamado todos los elementos que se le envien. En este caso recibe un item li por cada elemento del array.
+El Array que se esta mapeando no es el original si no que se genera una copia para poder interactuar con este.
+
+**************TodoItem*******************
+
+Cada li es un componente que contiene un span para marcarlo como completado, un texto y otro span para eliminarlo. Los dos span escuchan eventos de click del usuario.
+
+Evento completar todo :
+
+Cuando se recibe el evento de click se llama a  la propiedad onComplete que es recibida en el componente todoItem por medio de props. Esta propiedad a su vez contiene la funcion completeTodos(todo.text).
+
+completeTodos() recibe el texto del todo que queremos marcar como completado. La funcion completeTodos() esta definida en el contexto y la recibimos en AppUI por medio de React.useContext(TodoContext).
+
+
+**************Modal********************
+En el index.js de la carpeta src estamos llamando a ReactDom.Render y le estamos diciendo que renderize nuestro componente App (Toda la aplicacion) en un nodo HTML (<div> id='root'). Utilizando los portales podemos telentransportar los componentes o elementos creados en React con codigo JSX  a un nodo distinto que ya este creado en el documento HTML.
+Asimismo, podemos seguir comunicando el estado y las propiedades a los componentes que estan en otro nodo.
+
+El componente Modal no retorna componentes ni elementos si no que retorna un portal utilizando ReactDOM.createPortal(), dentro de este portal si podemos enviar componentes o elementos. Pero en este caso el componente Modal() nos permite ser reutilizado para enviar lo que queramos por el portal a nuestro Modal.Podemos enviar un formulario, una alerta de error, etre otras.
+
+Para realziar lo anterior recibimos la propiedad children donde vienen los elementos o componentes que queremos renderizar en el Modal y se la enviamos en el primer parametro de ceactDOM.createPortal().
+El segundo argumento es el nodo en HTML donde vamos a teletransportar a el hijo del componente modal (elementos o componentes recibido en children)
+
+para abrir o cerrar el modal creamos un estado en el componente TodoCntext y como estado inicial ponemos false para que el modal este cerrado al iniciar.
+Con el boton (CreateTodoButton) conectamos el actualizador (setOpenModal) del estado (openModal) del modal para cambiar el estado (true o false).
+En AppUI con las llaves preguntamos si el estado del modal (openModal) es true para mostrarlo o false para cerrarlo, llamamos al componente Modal y le venviamos un formulario ( componente TodoForm).
+
+**********TodoForm********************
+
+No vamos a recibir el evento de darle click al boton de añadir si no que recibimnos el evento de submit (envio del formulario).
+
+Los formularios tienen su propio evento onSumbmit. Para escuchar este evento se define el boton añadir de tipo submit, es decir, cuando el usuario le de click al boton añadir el formulario va a escuchar el evento de submit y va a ejecutar la funcion onSubmit.
+
+Tenemos que escuchar los cambios en texarea para cuando el usuario escriba algo podamos enviar este texto a addTodo que se encarga de crear un nuevo todo.
+
+1 Creamos un estado local con estado inicial de String vacio
+
+2. Conectamos el estado con el texarea: 
+    a. El value del textarea va a ser igual al estado incial (newTodoValue) para poder controlar el elemento y tener una sola fuente de informacion.
+
+    b. Actualziamoes el estado medainte el evento onChange del textarea que va a llamar a la funcion onChange que utiliza el actualizador de estado setNewTodoValue y le envia event.target.value del texarea.
+
+    c. Finalmente cuando el usuario le de añadir escuchamos el evento de submit del form y este ejecuta la funcion onSubmit que recibe como parametro event que por dentro tiene un metodo event.preventDefault() esto lo que hace es evitar que la pagina se recargue por defecto y trate de enviar la informacion.
+    Adicionalmente llamamos a la funcion addTodo(newTodoValue) y le enviamos el texto del todo que esta guardada en el estado (newTodoValue) 
+
+************* TodosLoading**************
+
+Lo primero que debemos hacer es llevar ese diseño a su forma más simple.
+Cada vez que se hace un request al servidor, mientras se obtiene una respuesta se puede mostrar el estado de carga de inmediato. Una vez se tenga una respuesta, se cambia el estado de carga por los datos y el componente real. 
+
+Lo primero es crear los estados de carga TodosError, TodosLoading y EmptyTodos. Estos componentes se llaman desde el componente AppUI.
+1. Se definen los estilo en TodosLoading.css
+2.Ahora vamos a todas las cajitas (menos la del texto) para darles un color de fondo con gradiente
+
+
+**************TodoIcon*****************
+
+Lo primero que hacemos es crear el compoennte TodoIcon que va a ser el componente padre de donde se van a generar los demas iconos.
+Este componente tiene un objeto con los SVG que queremos mostrar en la App.
+Dentro del objeto tenemos una clave con el nombre del icono que queremos mostrar y el valor es una funcion que contiene el icono (SVG) y que recibe comoo parametro el color que le queremos asignar dependiendo del evento que escuchemos del usuario.
+
+Los usuarios no siempre dan click o presionan la pantalla de sus celulares con completa precisión, por lo que es muy buena idea crear un contenedor invisible alrededor de nuestros íconos. 
+Para esto el componente TodoIcon retorna una etiqueta span para el contenedor de los iconos.
+
+La etiqueta <span> escucha el evento de click y ejecuta la funcion que esta en la propiedad onClick que es enviada por el componente que llame a TodoIcon (CompleteIcon o DeleteIcon) que a su vez la recibe de TodoItem y TodoItem la recibe de AppUI por medio del contexto.
+
+Dentro de <span> determinamos cual SVG mostrar (Las que estan en el objeto iconTypes) dependiendo de la propiedad type que nos envie el componente que llame a nusetro TodoIcon
+{iconTypes[type](color)} 
+
+Cada vez que llamamos a nuestro ícono debemos enviar varias props. Pero ¿qué tal si crearamos un componente que envíe todas esas props por nosotros?
+
+Lo que voy a hacer es crear dos nuevos componentes, CompleteIcon y DeleteIcon. Cada uno llamará al componente TodoIcon con sus respectivas props necesarias. Y luego podremos llamar mucho más fácil a estos dos nuevos componentes donde los necesitemos.
+
+Y estos componentes ahora sí los llamaremos desde TodoItem:
+
+Así seguiría construyendo mi componente TodoIcon con todos los íconos que vaya requiriendo nuestra aplicación TODO Machine.
+
+Conclusion:
+
+Se crea un componente TodoIcon que recibe propiedades para poder crear iconos personalizados. Estas propiedades son configuradas desde los componentes hijos en el llamado de TodoItem que  ademas recibe unas propiedades dependiendo de las funciones que deba cumplir. Finalmente estos componentes hijos son llamados en AppUI.
+
+<PacienteList
+          error={error}
+          loading={loading}
+          totalPacientes={totalPacientes}
+          searchedPaciente = {searchedPaciente}
+          searchText={searchValueName}
+          onError={() => <TodosError />}
+          onLoading={() => <TodosLoading />}
+          onEmptyTodos={() => <EmptyTodos />}
+          onEmptySearchResults={
+            (searchText) => 
+              <p>No hay resultados para  <span style={{color:"red"}}
+                >
+                  {searchText}
+                </span>
+              </p>
+          }
+          /* render prop */
+          render= {p =>(   
+              <PacienteItem 
+              key = {p.identificacion} // Identificador unico
+              name = {p.nombre}
+              apellido = {p.apellido}
+              nacimiento = {p.nacimiento}
+              identificacion = {p.identificacion}
+              telefono = {p.telefono}
+              direccion = {p.direccion}
+              eps = {p.eps}
+              sintomatologia = {p.sintomatologia}
+              examenes = {p.examenes}
+              correo = {p.correo}
+              registro = {p.registro}
+              onDelete = {()=>{setOpenModalDelete(true)
+              setConfirm(p.identificacion)}}
+              
+              onEdit = {()=>{setOpenModalEdit(true)
+               setConfirm(p.identificacion)}
+               }
+            />
+          )}
+        
+            >
+          {/* Render function */}
+           {p =>(   
+              <PacienteItem 
+              key = {p.identificacion} // Identificador unico
+              name = {p.nombre}
+              apellido = {p.apellido}
+              nacimiento = {p.nacimiento}
+              identificacion = {p.identificacion}
+              telefono = {p.telefono}
+              direccion = {p.direccion}
+              eps = {p.eps}
+              sintomatologia = {p.sintomatologia}
+              examenes = {p.examenes}
+              correo = {p.correo}
+              registro = {p.registro}
+              onDelete = {()=>{setOpenModalDelete(true)
+              setConfirm(p.identificacion)}}
+              
+              onEdit = {()=>{setOpenModalEdit(true)
+               setConfirm(p.identificacion)}
+               }
+            />
+          )
+          }
+
+          </PacienteList>

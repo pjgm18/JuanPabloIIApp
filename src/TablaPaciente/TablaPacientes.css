@@ -1,0 +1,14 @@
+/* td{
+    width: 80%;
+} */
+.table__top-left {
+    border-bottom : black 1px solid;
+    cursor:  pointer;
+    color: green  
+}
+
+.table__top-right{
+    border-bottom: black 1px solid;
+}
+                  
+                
