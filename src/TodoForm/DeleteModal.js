@@ -7,7 +7,11 @@ function DeleteModal({
     confirm:id,
     setShowPacienteDetails
 })
+
+
 {
+    console.log('id')
+        console.log(id)
     
 
    
@@ -16,8 +20,9 @@ function DeleteModal({
         setOpenModalDelete(false)
     }
     const acept = (id)=>{
+         setOpenModalDelete(false)
         deletePaciente(id)
-        setOpenModalDelete(false)
+        // setOpenModalDelete(false)
         
         
         

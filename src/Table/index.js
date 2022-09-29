@@ -4,15 +4,18 @@ import './Table.css'
 
 function Table({children}){
     return(
-        <div    className="main-table-container">
-            <table>
+     <div className="main-table-container">
+        <table>
+            <tbody>
             <tr>
                 <td className="td-top">Nombre</td>
                 <td className="td-top">Identificacion</td>
             </tr>
-            {children}
+             {children}  
+            </tbody>
+            
         </table>
-        </div>
+     </div>
      )
     
 }

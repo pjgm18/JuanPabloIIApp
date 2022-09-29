@@ -3,7 +3,7 @@ import './TablaPacientes.css'
 
 function TablaPaciente(props){
   const onClickName = ()=>{
-    console.log('holaaaaa');
+    
     props.onShowDetails(true)
     props.showDetails(props.id)
     
@@ -14,13 +14,13 @@ function TablaPaciente(props){
     return(
         <tr>
           <td
-            class="table__top-left"
+            className="table__top-left"
             onClick={onClickName}
           >
             {props.nombre}
           </td>
           <td 
-            class="table__top-right table__right"
+            className="table__top-right table__right"
           >
             {props.id}
           </td>

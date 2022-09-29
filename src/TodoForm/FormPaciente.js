@@ -20,6 +20,8 @@ function FormPaciente({setOpenModalP,addPaciente,paciente}){
     const onChange=(event)=>{
         setForm({
             ...form,
+            // Modificar un elemento en el objeto
+            // Toma el nombre del imput y le agrega lo que el usuario este ingresando
             [event.target.name]: event.target.value
             
         })
@@ -44,8 +46,11 @@ function FormPaciente({setOpenModalP,addPaciente,paciente}){
     
     const onSubmit = (event)=>{
         // No vamos a recargar la pagina o tratar de enviar nuestros datos a alguna parte
+        // Validamos que no hayan campos requeridos vacios
         if (!form) {
             event.preventDefault()
+            console.log('que hace');
+            console.log(form);
         } else {
             const pacienteExist = paciente.filter(p => p.identificacion === form.identificacion)
             console.log(pacienteExist);

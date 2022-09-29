@@ -5,7 +5,7 @@ import './PacienteItem.css';
 
 function PacienteItem(props){
     return (
-        <li className="PacienteItem">
+        <li className="PacienteItem"> 
           
           <p
             className={`PacienteItem-p ${props.completed && 'PacienteItem-p--complete'}`}

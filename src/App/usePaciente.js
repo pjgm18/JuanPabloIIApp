@@ -3,7 +3,7 @@ import { useLocalStorage } from "./useLocalStorage";
 
 
 function useTodos(){
-
+ 
 
 
 //**************  LOGICA QUE QUEREMOS COMPARTIR ************************ */
@@ -20,43 +20,45 @@ function useTodos(){
     const [showPacienteDetails,setShowPacienteDetails] = React.useState(false)
     const [pacienteSelected,setpacienteSelected] = React.useState([])
     // Custom HOOK que maneja persistencia con localStorage
-    console.log('showPacienteDetails');
-    console.log(showPacienteDetails);
+    
+    
     const{
       item:paciente,
-      saveItem:savePaciente,
+      pacientes,
+      saveItem,
       loading,
-      error
-    }= useLocalStorage('PACIENTES_V1',[]);
+      error,
+      savePaciente,
+      editPaciente,
+      cosita
+    }= useLocalStorage('PACIENTES_V1',[],showPacienteDetails);
    
 
-    console.log('showPacienteDetails');
-    console.log(showPacienteDetails);
+
+     
+    
 
 
 const addPaciente = (form) => {
-  const newPaciente = [...paciente]
-  newPaciente.push(form)
-  savePaciente(newPaciente)
+  // const newPaciente = [...paciente]
+  // newPaciente.push(form)
+  // savePaciente(newPaciente)
+  savePaciente(form)
   
 }
 
 const deletePaciente = (id) => {
 
-      console.log('deletePaciente');
-      console.log(id);
-      alert('espera')
-      
-      const pacienteIndex = paciente.findIndex(p => p.identificacion === id);
+  cosita(id)
+  // console.log('deletep')
+  // console.log(deletePacientes)
+  // deletePacientes(id)
 
-      console.log('pacienteIndex');
-      console.log(pacienteIndex);
-      alert('espera')
-
-      const newPaciente = [...paciente]
-      newPaciente.splice(pacienteIndex, 1)
-      savePaciente(newPaciente)
-      setShowPacienteDetails(false)
+  // const pacienteIndex = paciente.findIndex(p => p.identificacion === id);
+  // const newPaciente = [...paciente]
+  // newPaciente.splice(pacienteIndex, 1)
+  // savePaciente(newPaciente)
+  // setShowPacienteDetails(false)
 
 }
 
@@ -64,14 +66,12 @@ const totalPacientes = paciente.length
 
 let searchedPaciente
 
-
-
 if((!searchValueName.length && !searchValueId.length) >=1){
   
-    searchedPaciente = paciente
+    searchedPaciente = pacientes
   }else if (searchValueName.length>=1 && !searchValueId.length){
-      console.log('valdiacion nombre');
-      searchedPaciente = paciente.filter(p => {
+      
+      searchedPaciente = pacientes.filter(p => {
       const pacienteName = p.nombre.toLowerCase()
       const searchText = searchValueName.toLowerCase()
       const validacion = pacienteName.includes(searchText)
@@ -80,18 +80,18 @@ if((!searchValueName.length && !searchValueId.length) >=1){
     })}
   
     else if (searchValueId.length >=1 && !searchValueName.length) {
-        console.log('valdiacion Id');
+        
 
-        searchedPaciente = paciente.filter(p => {
-        const pacienteId = p.identificacion
+        searchedPaciente = pacientes.filter(p => {
+        const pacienteId = JSON.stringify(p.identificacion)
         const validacion = pacienteId.includes(searchValueId)
         return validacion
       
       })}
       else if ((searchValueName.length && searchValueId.length) >=1) {
-        console.log('Doble validacion');
-        searchedPaciente = paciente.filter(p => {
-        const pacienteId = p.identificacion
+        
+        searchedPaciente = pacientes.filter(p => {
+        const pacienteId = JSON.stringify(p.identificacion)
         const pacienteName = p.nombre.toLowerCase()
         const searchText = searchValueName.toLowerCase()
         const validacionI = pacienteId.includes(searchValueId)
@@ -105,8 +105,12 @@ if((!searchValueName.length && !searchValueId.length) >=1){
       })}
 
   const showDetails = (id)=>{
+    
+    
   const pacienteDetails = searchedPaciente.filter(p => {
-    const pacienteId = p.identificacion
+    const pacienteId = JSON.stringify(p.identificacion)
+    
+    
     const validacion = pacienteId.includes(id)
     return validacion})
     setpacienteSelected(pacienteDetails)
@@ -123,7 +127,7 @@ if((!searchValueName.length && !searchValueId.length) >=1){
 //     const pacienteName = p.nombre.toLowerCase()
 //     const searchText = searchValueName.toLowerCase()
 //     const validacion = pacienteName.includes(searchText)
-//     console.log('Esta es la validacion ' + validacion)
+//     
 //     return validacion
   
 //   })}
@@ -135,7 +139,7 @@ if((!searchValueName.length && !searchValueId.length) >=1){
 //       searchedPaciente = paciente.filter(p => {
 //       const pacienteId = p.identificacion
 //       const validacion = pacienteId.includes(searchValueId)
-//       console.log('Esta es la validacion ' + validacion)
+//       
 //       return validacion
     
 //     })}
@@ -145,7 +149,7 @@ if((!searchValueName.length && !searchValueId.length) >=1){
     const pacienteName = p.nombre.toLowerCase()
     const searchText = searchValue.toLowerCase()
     const validacion = pacienteName.includes(searchText)
-    console.log('Esta es la validacion ' + validacion)
+    
     return validacion
   
   }) */
@@ -154,34 +158,39 @@ if((!searchValueName.length && !searchValueId.length) >=1){
 
 
 const searchePacienteToEdit = (id)=>{
-    searchedPaciente = paciente.filter(p => {
-    const pacienteId = p.identificacion
+    
+    
+    searchedPaciente = pacientes.filter(p => {
+    const pacienteId = p._id
+    
+    
     return pacienteId.includes(id)
     })
-    console.log('Paciente buscado');
-    console.log(searchedPaciente);
+    
+    
   return( searchedPaciente[0])
    
     
     
 }
 
-const editPaciente = ({form,id})=>{
-  console.log('viene del form');
-  console.log(form);
-  const index = paciente.findIndex(p =>(
-    p.identificacion === id
-  ))
-  const newPaciente = [...paciente]
-  newPaciente[index] = {...form}
-  console.log('Copia en LS');  
-  console.log(newPaciente);  
-  savePaciente(newPaciente)
-}
+// const editPaciente = ({form,id})=>{
+//   
+//   
+//   const index = paciente.findIndex(p =>(
+//     p.identificacion === id
+//   ))
+//   const newPaciente = [...paciente]
+//   newPaciente[index] = {...form}
+//   
+//   
+//   savePaciente(newPaciente)
+// }
 
 
  return{
             paciente,
+            pacientes,
             totalPacientes,
             searchedPaciente,           
             loading,

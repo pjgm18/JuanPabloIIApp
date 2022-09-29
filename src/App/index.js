@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios'
 import { TodoHeader } from "../TodoHeader";
 import { Options } from "../Options";
 import { RegistroButton } from "../Buttons/RegistroButton";
@@ -19,6 +20,27 @@ import { useTodos } from "./usePaciente";
 import { Table } from "../Table";
 import { TablaPaciente } from "../TablaPaciente";
 
+// const api = axios.create({
+//   baseURL : 'http://localhost:3003/',
+//   headers:{
+//       'Content-Type': 'aplication/json;charset=utf-8'
+//   },
+
+// })
+
+
+  const getChats = async () => {
+		
+		const paciente = await (await fetch('http://localhost:3003/paciente')).json();
+    
+	}
+  // const pacientes = data.results
+  
+
+
+
+
+
 let i=1
 // let i= 0;
 // const defaultTodos = [
@@ -34,6 +56,7 @@ function App() {
   const {
     todos,
     paciente,
+    pacientes,
     totalPacientes,
     loading,
     error,
@@ -70,12 +93,14 @@ function App() {
     pacienteSelected
 } = useTodos()
 
-console.log('pacienteSelected');
-console.log(pacienteSelected);
+
+
+
   return(
 
 
     <React.Fragment>
+      
       <TodoHeader>
         <Titulo/>
       </TodoHeader>
@@ -102,6 +127,7 @@ console.log(pacienteSelected);
           <Table>
             {searchedPaciente.map(p=>(
               <TablaPaciente
+                key={p.identificacion}
                 nombre ={p.nombre}
                 id = {p.identificacion}
                 onShowDetails={setShowPacienteDetails}
@@ -111,6 +137,7 @@ console.log(pacienteSelected);
             }
                                
           </Table>
+         
           
           </>
           }
@@ -153,10 +180,10 @@ console.log(pacienteSelected);
               correo = {p.correo}
               registro = {p.registro}
               onDelete = {()=>{setOpenModalDelete(true)
-              setConfirm(p.identificacion)}}
+              setConfirm(p._id)}}
               
               onEdit = {()=>{setOpenModalEdit(true)
-               setConfirm(p.identificacion)}
+               setConfirm(p._id)}
                }
             />
           )
@@ -185,7 +212,7 @@ console.log(pacienteSelected);
             <FormPaciente
                 setOpenModalP={setOpenModalP}
                 addPaciente={addPaciente}
-                paciente={paciente}
+                paciente={pacientes}
             />
             </Modal>}
 

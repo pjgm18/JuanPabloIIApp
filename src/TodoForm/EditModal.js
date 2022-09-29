@@ -7,7 +7,10 @@ function EditModal({
     editPaciente,
     paciente
 }){
-    const id = pacienteToEdit.identificacion
+    
+
+    const id = pacienteToEdit._id
+  
     const [form, setForm] = React.useState({...pacienteToEdit})
 
     const onChange=(event)=>{
@@ -17,8 +20,7 @@ function EditModal({
             
         })
     }
-    console.log('valor del imput de ID');    
-    console.log(form.identificacion); 
+  
 
     const onCancel = ()=>{
         setOpenModalEdit(false)
@@ -33,7 +35,11 @@ function EditModal({
                 alert('Ya existe un paciente con la misma identificacion')
                 event.preventDefault()
             } else {
+               
                 event.preventDefault()
+                console.log('id del paciente to edit');
+                console.log(id);
+                console.log(typeof(id));
                 editPaciente({form,id})
                 setOpenModalEdit(false) 
             }

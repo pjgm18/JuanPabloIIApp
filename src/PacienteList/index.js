@@ -21,8 +21,8 @@ Para hacer esto se utiliza la propiedad especial children que encierra todo el c
 
 function PacienteList(props){
     const renderFunc = props.children || props.render
-    console.log('PacienteList props.pacienteSelected');
-    console.log(props.pacienteSelected);
+    
+    
     return(
        
     <section className="PacienteList-container">
