@@ -3,12 +3,14 @@ import React from "react";
 const API = 'http://localhost:3003/'
 
 //Custom HOOK para persistencia de datos
-function useLocalStorage(itemName, initialValue,showPacienteDetails){
+function useLocalStorage(itemName, initialValue,setpacienteSelected){
 
   const[error, setError] = React.useState(false)
   const[loading, setLoading] = React.useState(true)
   const [item, setItem] = React.useState(initialValue)
   const [pacientes, setPacientes] = React.useState(initialValue)
+
+
 
   const getPacientes = async () => {
 		
@@ -52,6 +54,7 @@ function useLocalStorage(itemName, initialValue,showPacienteDetails){
     
   }
   const editPaciente = async ({form,id})=>{
+
         const paciente = {
           nombre:form.nombre,
           apellido:form.apellido,
@@ -73,23 +76,21 @@ function useLocalStorage(itemName, initialValue,showPacienteDetails){
               'Content-Type': 'application/json; charset=UTF-8',
             },
             body: JSON.stringify(paciente),
-          });
+          }   );
+          
           const index = paciente.findIndex(p =>(
             p.identificacion === id
           ))
           const newPaciente = [...paciente]
-          newPaciente[index] = {...form}
-          savePaciente(newPaciente)
-  
+          newPaciente[index] = {form}
+          
+       
         } catch (error) {
           setError(error)
   
         }
   
-        
-        // setMessageToSend('');
       
-    
   }
 const cosita = async (id)=>{
       
@@ -102,14 +103,18 @@ const cosita = async (id)=>{
         // savePaciente(newPaciente)
    }
 
+    
+
 
   // e
   React.useEffect(()=>{
+    
    
     console.log('useEffect 1');
-    setTimeout(() => {
+
      try {
-      getPacientes()
+      console.log('useEffect getPacientes');
+      getPacientes() 
       const localStorageItem = localStorage.getItem(itemName)
       let parsedItem;
     
@@ -129,8 +134,8 @@ const cosita = async (id)=>{
      } catch (error) {
         setError(error)
      }
-    }, 3000);
-  },[showPacienteDetails])
+
+  },[loading])
 
    
     // Estado de l item que estemos llamando de localStorage, se utiliza para traer la informacion mas actualizada de localStorage
@@ -160,7 +165,8 @@ const cosita = async (id)=>{
         pacientes,
         savePaciente,
         editPaciente,
-        cosita
+        cosita,
+        setLoading
        }
   
 }

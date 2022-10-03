@@ -178,6 +178,3 @@ function FormPaciente({setOpenModalP,addPaciente,paciente}){
 }
 
 export { FormPaciente}
-
-
-

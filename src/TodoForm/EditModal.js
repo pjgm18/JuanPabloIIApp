@@ -2,16 +2,22 @@ import React from "react";
 import './TodoForm.css'
 
 function EditModal({
+    pacienteSelected,
     pacienteToEdit,
+    setpacienteSelected,
+    setLoading,
+    setLoading2,
     setOpenModalEdit,
     editPaciente,
-    paciente
+    paciente,
+   
 }){
     
-
+    
     const id = pacienteToEdit._id
   
     const [form, setForm] = React.useState({...pacienteToEdit})
+
 
     const onChange=(event)=>{
         setForm({
@@ -37,11 +43,12 @@ function EditModal({
             } else {
                
                 event.preventDefault()
-                console.log('id del paciente to edit');
-                console.log(id);
-                console.log(typeof(id));
+                setLoading(true)
                 editPaciente({form,id})
-                setOpenModalEdit(false) 
+                setOpenModalEdit(false)
+                setLoading2(true)
+                
+                 
             }
             
         }

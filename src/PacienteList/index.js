@@ -21,7 +21,8 @@ Para hacer esto se utiliza la propiedad especial children que encierra todo el c
 
 function PacienteList(props){
     const renderFunc = props.children || props.render
-    
+    console.log('render list');
+
     
     return(
        
@@ -30,7 +31,7 @@ function PacienteList(props){
 
             
 
-            {props.pacienteSelected.map(renderFunc)}
+            {props.pacienteSeleccionado.map(renderFunc)}
     </section>
 )
 }

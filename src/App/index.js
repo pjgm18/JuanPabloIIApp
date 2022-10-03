@@ -29,11 +29,6 @@ import { TablaPaciente } from "../TablaPaciente";
 // })
 
 
-  const getChats = async () => {
-		
-		const paciente = await (await fetch('http://localhost:3003/paciente')).json();
-    
-	}
   // const pacientes = data.results
   
 
@@ -41,7 +36,7 @@ import { TablaPaciente } from "../TablaPaciente";
 
 
 
-let i=1
+
 // let i= 0;
 // const defaultTodos = [
 //   {text= 'Cortar cebolla', completed= t
@@ -90,7 +85,11 @@ function App() {
     setShowPacienteDetails,
     showPacienteDetails,
     showDetails,
-    pacienteSelected
+    pacienteSelected,
+    setLoading,
+    setLoading2,
+    setpacienteSelected,
+    pacienteSeleccionado
 } = useTodos()
 
 
@@ -148,7 +147,7 @@ function App() {
           error={error}
           loading={loading}
           totalPacientes={totalPacientes}
-          pacienteSelected = {pacienteSelected}
+          pacienteSeleccionado = { pacienteSeleccionado}
           searchText={searchValueName}
           onError={() => <TodosError />}
           onLoading={() => <TodosLoading />}
@@ -230,9 +229,13 @@ function App() {
             <Modal>
                 
             <EditModal
+            setLoading2={setLoading2}
+            setLoading={setLoading}
             setOpenModalEdit={setOpenModalEdit}
             editPaciente={editPaciente}
             paciente={paciente}
+            setpacienteSelected={setpacienteSelected}
+            pacienteSelected={pacienteSelected}
             pacienteToEdit={searchePacienteToEdit(confirm)}
             />
             </Modal>}

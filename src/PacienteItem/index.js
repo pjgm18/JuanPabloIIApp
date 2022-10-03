@@ -4,6 +4,7 @@ import {EditIcon } from '../TodoIcon/EditIcon';
 import './PacienteItem.css';
 
 function PacienteItem(props){
+ console.log('render itme');
     return (
         <li className="PacienteItem"> 
           
