@@ -1,45 +1,24 @@
+Copia de useLocalStorage con estados independientes
+
 
 import React from "react";
 const API = 'http://localhost:3003/'
 
 //Custom HOOK para persistencia de datos
-function useLocalStorage(itemName, initialValue){
+function useLocalStorage(itemName, initialValue,){
 
-  const [state,dispatch] = React.useReducer(reducer,initialState({initialValue}))
-
-  const{
-        error,
-        loading,
-        pacientes,
-      }=state
-
-
-
-
-//  ACTION CREATORS
-const onError=(error)=>{ dispatch({type:actionTypes.error,payload:error})}
-
-const onUpdate=(newPaciente)=>{dispatch ({type:actionTypes.addPaciente, payload:newPaciente})
-}
-
-const onLoading = ()=>{dispatch({type:actionTypes.loading})}
-
-const onSincronize = ()=>{
-  console.log('Sincronizando');
-  dispatch({
-    type:actionTypes.sincronize
-  })
-}
-
+     const[error, setError] = React.useState(false)
+  const[loading, setLoading] = React.useState(true)
+  const [item, setItem] = React.useState(initialValue)
+  const [pacientes, setPacientes] = React.useState(initialValue)
 
 
 
   const getPacientes = async () => {
 		
     const data = await (await fetch(`${API}paciente`)).json();
-
     const pacientes = data.body
-    onUpdate(pacientes)
+    setPacientes(pacientes)
   }
   const savePaciente = async (form)=>{
  
@@ -63,13 +42,12 @@ const onSincronize = ()=>{
             },
             body: JSON.stringify(paciente),
           });
-          onSincronize()
-          // const newPaciente = [...pacientes]
-          // newPaciente.push(paciente)
-          // onUpdate(newPaciente)
+          const newPaciente = [...pacientes]
+          newPaciente.push(paciente)
+          setPacientes(newPaciente)
   
         } catch (error) {
-          onError(error)
+          setError(error)
   
         }
   
@@ -78,8 +56,7 @@ const onSincronize = ()=>{
       
     
   }
-  const edit = async ({form,id})=>{
-
+  const editPaciente = async ({form,id})=>{
 
         const paciente = {
           nombre:form.nombre,
@@ -103,10 +80,11 @@ const onSincronize = ()=>{
             },
             body: JSON.stringify(paciente),
           }   );
-
+          
+        
        
         } catch (error) {
-          onError(error)
+          setError(error)
   
         }
   
@@ -123,97 +101,77 @@ const cosita = async (id)=>{
         // savePaciente(newPaciente)
    }
 
-  
-  React.useEffect(()=>{
-  //   setTimeout(()=>{
-  //     try {
-  //       getPacientes() 
-  //       onLoading()
-  //      } catch (error) {
-  //         onError(error)
-  //      }
-  //  },3000)
-   try {
-    getPacientes() 
-    onLoading()
-   } catch (error) {
-      onError(error)
-   }
-    },[loading])
+    
 
+
+  // e
+  React.useEffect(()=>{
+    
+    
+    console.log('useEffect 1');
+    setTimeout(()=>{
+
+
+      try {
+        console.log('useEffect getPacientes');
+        getPacientes() 
+        const localStorageItem = localStorage.getItem(itemName)
+        let parsedItem;
+      
+        // Se verifica si es la primera vez queel}} el usuario utiliza la aplicacion
+        // Si no existe (es decir si es null, undefinde, false o un String vacio)
+        if(!localStorageItem){
+          localStorage.setItem(itemName, JSON.stringify(initialValue))
+          parsedItem = initialValue
+        }else{
+          parsedItem = JSON.parse(localStorageItem)
+          
+      
+        }
+        
+        setItem(parsedItem)
+        setLoading(false)
+       } catch (error) {
+          setError(error)
+       }
+  
+    },1500)
+      
+    },[loading])
+     
+
+   
+    // Estado de l item que estemos llamando de localStorage, se utiliza para traer la informacion mas actualizada de localStorage
+
+  
+    //Esta funcion hace un puente para conectar el estado del item y el localStorage para (Actualizar) completar y eliminar Todos con las funciones respectivas
+    const saveItem= (newItem) =>{
+  
+      try {
+
+        const stringifiedItem = JSON.stringify(newItem)
+        localStorage.setItem(itemName, stringifiedItem)
+        setItem(newItem)
+
+      } catch (error) {
+        setError(error)
+
+      }
+    }
     
   
       return { 
+        item,
+        saveItem,
         loading,
         error,
         pacientes,
         savePaciente,
-        edit,
+        editPaciente,
         cosita,
-        onSincronize
-     
+        setLoading
        }
   
 }
-
-
-// Objeto compuesto para el useReducer
-const initialState = (initialValue)=>({
-    error:false,
-    loading:true,
-    pacientes:initialValue,
-})
-
-const actionTypes={
-  error:'ERROR',
-  addPaciente:'ADDPACIENTE',
-  loading: 'LOADING',
-  sincronize:'SINCRONIZE'
-}
-const reducerObject = (state, payload)=>({
-  [actionTypes.error]:{
-    ...state,
-    error:payload,
-   },
-  [actionTypes.addPaciente]:{
-    ...state,
-    pacientes: payload,
-   },
-  [actionTypes.loading]:{
-    ...state,
-    loading:false,
-   },
-  [actionTypes.sincronize]:{
-    ...state,
-    loading:true,
-   }
-})
-
-const reducer =(state,action)=>(reducerObject(state, action.payload)[action.type] || state)
-  
-
   
   export { useLocalStorage}
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

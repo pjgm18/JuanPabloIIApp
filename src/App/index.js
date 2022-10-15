@@ -89,7 +89,8 @@ function App() {
     setLoading,
     setLoading2,
     setpacienteSelected,
-    pacienteSeleccionado
+    pacienteSeleccionado,
+    
 } = useTodos()
 
 
@@ -103,7 +104,9 @@ function App() {
       <TodoHeader>
         <Titulo/>
       </TodoHeader>
-      <Options>
+      <Options
+        loading={loading}
+      >
         <RegistroButton
           setShowPaciente={setShowPaciente}
         />
@@ -123,9 +126,12 @@ function App() {
           setSearchValueName={setSearchValueName}
           setSearchValueId={setSearchValueId}
           />
-          <Table>
+          <Table
+          loading={loading}
+          >
             {searchedPaciente.map(p=>(
               <TablaPaciente
+              loading={loading}
                 key={p.identificacion}
                 nombre ={p.nombre}
                 id = {p.identificacion}
@@ -164,7 +170,7 @@ function App() {
         
             >
           {/* Render function */}
-           {p =>(   
+           {p =>(    
               <PacienteItem 
               key = {p.identificacion} // Identificador unico
               name = {p.nombre}
@@ -209,9 +215,10 @@ function App() {
         {!!openModalP && 
             <Modal>
             <FormPaciente
+            setLoading={setLoading}
                 setOpenModalP={setOpenModalP}
                 addPaciente={addPaciente}
-                paciente={pacientes}
+                pacientes={pacientes}
             />
             </Modal>}
 
@@ -219,6 +226,7 @@ function App() {
         {!!openModalDelete && 
             <Modal>
             <DeleteModal
+               
                 setOpenModalDelete={setOpenModalDelete}
                 deletePaciente={deletePaciente}
                 confirm={confirm}
@@ -229,11 +237,12 @@ function App() {
             <Modal>
                 
             <EditModal
+            loading={loading}
             setLoading2={setLoading2}
             setLoading={setLoading}
             setOpenModalEdit={setOpenModalEdit}
             editPaciente={editPaciente}
-            paciente={paciente}
+            pacientes={pacientes}
             setpacienteSelected={setpacienteSelected}
             pacienteSelected={pacienteSelected}
             pacienteToEdit={searchePacienteToEdit(confirm)}
@@ -242,7 +251,7 @@ function App() {
 
         <CreateTodoButton
 
-           
+           loading={loading}
             setOpenModalP = {setOpenModalP}
             setShowPaciente = {setShowPaciente}
             showPaciente = {showPaciente}

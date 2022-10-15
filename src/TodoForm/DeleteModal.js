@@ -22,6 +22,7 @@ function DeleteModal({
     const acept = (id)=>{
          setOpenModalDelete(false)
         deletePaciente(id)
+        setShowPacienteDetails(false)
         // setOpenModalDelete(false)
         
         

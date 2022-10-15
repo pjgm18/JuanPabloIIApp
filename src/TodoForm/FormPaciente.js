@@ -1,7 +1,7 @@
 import React from "react";
 import './TodoForm.css'
 
-function FormPaciente({setOpenModalP,addPaciente,paciente}){
+function FormPaciente({setOpenModalP,addPaciente,pacientes,setLoading}){
     
     const [form, setForm] = React.useState({
         nombre:'',
@@ -52,7 +52,10 @@ function FormPaciente({setOpenModalP,addPaciente,paciente}){
             console.log('que hace');
             console.log(form);
         } else {
-            const pacienteExist = paciente.filter(p => p.identificacion === form.identificacion)
+            const pacienteExist = pacientes.filter(p => {
+                
+                return p.identificacion == form.identificacion
+            })
             console.log(pacienteExist);
             if (pacienteExist.length >= 1) {
                 alert('Ya existe un paciente con la misma identificacion')
@@ -63,6 +66,7 @@ function FormPaciente({setOpenModalP,addPaciente,paciente}){
                     setForm()
                     addPaciente(form)
                     setOpenModalP(false)
+                    
                   }   
         
        

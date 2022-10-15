@@ -9,3 +9,7 @@ table{
     font-weight: bold;
     color: black;
 }
+
+.main-table-container--loading{
+    background-color: brown;
+}

@@ -8,7 +8,9 @@ function CreateTodoButton(props){
         props.setOpenModalP(prevState => !prevState)
     }
 
-   
+   if(props.loading){
+    return null
+   }
     return(
         <div className="ButonContainer">
            

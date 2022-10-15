@@ -24,21 +24,19 @@ function useTodos(){
     
     
     const{
-      item:paciente,
       pacientes,
-      saveItem,
       loading,
       error,
       setLoading,
       savePaciente,
-      editPaciente,
-      cosita
-    }= useLocalStorage('PACIENTES_V1',[],setpacienteSelected);
+      edit,
+      cosita,
+      onSincronize
+    }= useLocalStorage('PACIENTES_V1',[]);
    
 
 
      
-    
 
 
 const addPaciente = (form) => {
@@ -48,9 +46,9 @@ const addPaciente = (form) => {
   savePaciente(form)
   
 }
-
+ 
 const deletePaciente = (id) => {
-
+  onSincronize()
   cosita(id)
   // console.log('deletep')
   // console.log(deletePacientes)
@@ -64,7 +62,7 @@ const deletePaciente = (id) => {
 
 }
 
-const totalPacientes = paciente.length
+// const totalPacientes = paciente.length
 
 let searchedPaciente
 let pacienteSeleccionado = [...pacienteSelected]
@@ -110,31 +108,21 @@ if((!searchValueName.length && !searchValueId.length) >=1){
 
       
  
-  // if(!!pacienteSelected.length && !loading){
-  //   console.log('Tiene algo');
-  //   const pacienteDetails = searchedPaciente.filter(p => {
-  //     const pacienteId = JSON.stringify(p.identificacion)
-      
-      
-  //     const validacion = pacienteId.includes(pacienteSelected._id)
-  //     return validacion})
-  //     setpacienteSelected(pacienteDetails)
-  //     console.log('pacienteSelected')
-  //     console.log(pacienteSelected)
-  // }
 
   
-        
-      
-          if(!!pacienteSeleccionado.length){
-           
+          if(!!pacienteSeleccionado.length && !!showPacienteDetails && !loading){
+          
+
             pacienteSeleccionado = searchedPaciente.filter(p => {
             const pacienteId = JSON.stringify(p._id)        
+          
             const validacion = pacienteId.includes(pacienteSeleccionado[0]._id)
             return validacion})
-            console.log('pacienteSeleccionado else');
-            console.log(pacienteSeleccionado);
+            
           }
+       
+
+         
           
           
  
@@ -208,24 +196,17 @@ const searchePacienteToEdit = (id)=>{
     
 }
 
-// const editPaciente = ({form,id})=>{
-//   
-//   
-//   const index = paciente.findIndex(p =>(
-//     p.identificacion === id
-//   ))
-//   const newPaciente = [...paciente]
-//   newPaciente[index] = {...form}
-//   
-//   
-//   savePaciente(newPaciente)
-// }
+const editPaciente = ({form,id})=>{
+  
+  onSincronize()
+  edit({form, id})
+}
 
 
  return{
-            paciente,
+            // paciente,
             pacientes,
-            totalPacientes,
+            // totalPacientes,
             searchedPaciente,           
             loading,
             error,

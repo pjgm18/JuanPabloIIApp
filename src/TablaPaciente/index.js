@@ -10,7 +10,9 @@ function TablaPaciente(props){
     
   }
 
-
+  // if(props.loading){
+  //   return <p> cargando-.....</p>
+  // }
     return(
         <tr>
           <td

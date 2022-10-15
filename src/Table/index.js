@@ -2,9 +2,11 @@ import React from "react";
 import './Table.css'
 
 
-function Table({children}){
+function Table({children,loading}){
+    console.log('loading Table');
+    console.log(loading);
     return(
-     <div className="main-table-container">
+     <div className={`main-table-container ${!!loading &&"main-table-container--loading"}`}>
         <table>
             <tbody>
             <tr>
