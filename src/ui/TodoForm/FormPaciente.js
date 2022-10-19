@@ -1,7 +1,9 @@
 import React from "react";
 import './TodoForm.css'
+import { useNavigate} from 'react-router-dom'
 
 function FormPaciente({setOpenModalP,addPaciente,pacientes,setLoading}){
+    const navigate = useNavigate()
     
     const [form, setForm] = React.useState({
         nombre:'',
@@ -29,7 +31,8 @@ function FormPaciente({setOpenModalP,addPaciente,pacientes,setLoading}){
          
 
     const onCancel = ()=>{
-        setOpenModalP(false)
+        navigate('/pacientes')
+        // setOpenModalP(false)
     }
 
     const getCurrentDate = ()=>{
@@ -52,6 +55,7 @@ function FormPaciente({setOpenModalP,addPaciente,pacientes,setLoading}){
             console.log('que hace');
             console.log(form);
         } else {
+            // El form.id es de tipo strin....validar eso
             const pacienteExist = pacientes.filter(p => {
                 
                 return p.identificacion == form.identificacion
@@ -68,7 +72,7 @@ function FormPaciente({setOpenModalP,addPaciente,pacientes,setLoading}){
                     setOpenModalP(false)
                     
                   }   
-        
+         
        
     }}
 

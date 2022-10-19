@@ -2,7 +2,7 @@ import React from "react";
 import { useLocalStorage } from "./useLocalStorage";
 
 
-function useTodos(){
+function usePacientes(){
  
 
 
@@ -199,9 +199,11 @@ const searchePacienteToEdit = (id)=>{
 const editPaciente = ({form,id})=>{
   
   onSincronize()
+  console.log('editPaciente');
+  console.log(form);
+  console.log(id);
   edit({form, id})
 }
-
 
  return{
             // paciente,
@@ -237,11 +239,12 @@ const editPaciente = ({form,id})=>{
             setLoading2,
             setLoading,
             setpacienteSelected,
-            pacienteSeleccionado
+            pacienteSeleccionado,
+            onSincronize
     }
       
 }
 
-export { useTodos }
+export { usePacientes }
 
 

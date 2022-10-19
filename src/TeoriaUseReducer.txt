@@ -1,0 +1,6 @@
+El objeto compuesto o initialState en la propiedad paciente necesita un initialValue que se esta recibiendo dentro del componente useLocalStorage.
+Tenemos dos formas de recibirlo en el objeto:
+
+1. Creando el objeto compuesto initialState dentro del componente useLocalStorage para que reciba automaticamente el valor.
+
+2. Creando el objeto compuesto como una funcion fuera del componente y este recibira un objeto con el parametro con el inicialValue y la funcion retornara el objeto compuesto. Esta funcion al llamamos dentro del useReducer en el initialState

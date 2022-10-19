@@ -1,20 +1,22 @@
 import React from "react";
 import './TodoForm.css'
+import { usePacientes} from '../../routes/usePacientes'
+import { useNavigate, useParams} from 'react-router-dom'
+
+
 
 function EditModal({
-   
-    pacienteToEdit,
-    setOpenModalEdit,
-    editPaciente,
-    pacientes,
-   
+        pacienteToEdit,
+        pacientes,
+        onSubmit:onSubmitt,
 }){
+    const navigate = useNavigate()
     
     
-    const id = pacienteToEdit._id
+    
   
-    const [form, setForm] = React.useState({...pacienteToEdit})
-
+    const [form, setForm] = React.useState(pacienteToEdit)
+  
 
     const onChange=(event)=>{
         setForm({
@@ -26,26 +28,24 @@ function EditModal({
   
 
     const onCancel = ()=>{
-        setOpenModalEdit(false)
+        navigate('/') 
     }
     const onSubmit = (event)=>{
-        
-
         // No vamos a recargar la pagina o tratar de enviar nuestros datos a alguna parte
         if (!form) {
             event.preventDefault()
         } else {
             const pacienteExist = pacientes.filter(p => p.identificacion === form.identificacion);
             if (pacienteExist.legth>=1) {
-                console.log('hola3');
                 alert('Ya existe un paciente con la misma identificacion')
                 event.preventDefault()
             } else {
-           
+               
                 event.preventDefault()
-                editPaciente({form,id})
-                setOpenModalEdit(false)
-     
+                // setLoading(true)
+               onSubmitt(form)
+                navigate('/pacientes') 
+
                 
                  
             }
@@ -53,8 +53,11 @@ function EditModal({
         }
        
     }
-    
-    return(
+
+//   return null
+       
+
+      return(
         <form onSubmit={onSubmit}>
              <label>Nombre</label>
             <input className="input" 
@@ -160,7 +163,10 @@ function EditModal({
                 </button>
             </div>
         </form>
-    )
+    )  
+    
+    
+   
 }
 
 export { EditModal}

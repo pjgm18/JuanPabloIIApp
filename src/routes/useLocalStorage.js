@@ -40,6 +40,8 @@ const onSincronize = ()=>{
 
     const pacientes = data.body
     onUpdate(pacientes)
+    onLoading()
+    
   }
   const savePaciente = async (form)=>{
  
@@ -128,14 +130,14 @@ const cosita = async (id)=>{
   //   setTimeout(()=>{
   //     try {
   //       getPacientes() 
-  //       onLoading()
+       
   //      } catch (error) {
   //         onError(error)
   //      }
   //  },3000)
    try {
     getPacientes() 
-    onLoading()
+  
    } catch (error) {
       onError(error)
    }
@@ -158,7 +160,7 @@ const cosita = async (id)=>{
 
 
 // Objeto compuesto para el useReducer
-const initialState = (initialValue)=>({
+const initialState = ({initialValue})=>({
     error:false,
     loading:true,
     pacientes:initialValue,

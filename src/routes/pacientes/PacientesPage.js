@@ -1,53 +1,29 @@
 import React from "react";
-import axios from 'axios'
-import { TodoHeader } from "../TodoHeader";
-import { Options } from "../Options";
-import { RegistroButton } from "../Buttons/RegistroButton";
-import { ExamenesButton } from "../Buttons/ExamenesButton";
-import { Titulo } from "../Title";
-import { PacienteList, TodoList } from "../PacienteList";
-import { EmptyTodos} from "../EmptyTodos"
-import { TodosLoading} from "../TodosLoading"
-import { TodosError} from "../TodosError"
-import { CreateTodoButton } from "../CreateTodoButton";
-import { Modal} from "../Modal"
-import { PacienteSearch} from "../PacienteSearch"
-import { FormPaciente} from "../TodoForm/FormPaciente"
-import { PacienteItem } from "../PacienteItem/index";
-import { DeleteModal}  from "../TodoForm/DeleteModal"
-import { EditModal}  from "../TodoForm/EditModal"
-import { useTodos } from "./usePaciente";
-import { Table } from "../Table";
-import { TablaPaciente } from "../TablaPaciente";
+import { TodoHeader } from "../../ui/TodoHeader";
+import { Options } from "../../ui/Options";
+import { RegistroButton } from "../../ui/Buttons/RegistroButton";
+import { ExamenesButton } from "../../ui/Buttons/ExamenesButton";
+import { Titulo } from "../../ui/Title";
+import { PacienteList, TodoList } from "../../ui/PacienteList";
+import { EmptyTodos} from "../../ui/EmptyTodos"
+import { TodosLoading} from "../../ui/TodosLoading"
+import { TodosError} from "../../ui/TodosError"
+import { CreateTodoButton } from "../../ui/CreateTodoButton";
+import { Modal} from "../../ui/Modal"
+import { PacienteSearch} from "../../ui/PacienteSearch"
+import { FormPaciente} from "../../ui/TodoForm/FormPaciente"
+import { PacienteItem } from "../../ui/PacienteItem/index";
+import { DeleteModal}  from "../../ui/TodoForm/DeleteModal"
+import { EditModal}  from "../../ui/TodoForm/EditModal"
 
-// const api = axios.create({
-//   baseURL : 'http://localhost:3003/',
-//   headers:{
-//       'Content-Type': 'aplication/json;charset=utf-8'
-//   },
+import { Table } from "../../ui/Table";
+import { TablaPaciente } from "../../ui/TablaPaciente";
+import {useNavigate} from 'react-router-dom'
+import { usePacientes } from "../usePacientes";
 
-// })
+function PacientesPage() {
+    const navigate = useNavigate()
 
-
-  // const pacientes = data.results
-  
-
-
-
-
-
-
-// let i= 0;
-// const defaultTodos = [
-//   {text= 'Cortar cebolla', completed= t
-//   {text= 'comprar agua', completed= t
-//   {text= 'compar agua', completed= t
-//   {text= 'comprr agua', completed= t
-//   {text= 'Hacer ejercicio', completed= f
-// ]
-
-//Componente principal que regresa varios componentes
-function App() {
   const {
     todos,
     paciente,
@@ -91,10 +67,12 @@ function App() {
     setpacienteSelected,
     pacienteSeleccionado,
     
-} = useTodos()
+} = usePacientes()
 
 
-
+if(loading){
+    return <p> Caragando......</p>
+}
 
   return(
 
@@ -104,20 +82,14 @@ function App() {
       <TodoHeader>
         <Titulo/>
       </TodoHeader>
-      <Options
-        loading={loading}
-      >
-        <RegistroButton
-          setShowPaciente={setShowPaciente}
-        />
-        <ExamenesButton/>
-      </Options>
+      
       
 
 
       
 
-      { showPaciente && 
+    
+     
         <>
           <h2>Pacientes</h2>
           {!showPacienteDetails && 
@@ -187,8 +159,12 @@ function App() {
               onDelete = {()=>{setOpenModalDelete(true)
               setConfirm(p._id)}}
               
-              onEdit = {()=>{setOpenModalEdit(true)
-               setConfirm(p._id)}
+              onEdit = {()=>{
+                navigate('/edit/' + p._id, )
+          
+                // setOpenModalEdit(true)
+                //  setConfirm(p._id)
+            }
                }
             />
           )
@@ -206,13 +182,14 @@ function App() {
           
         </>
 
-      }
+      
+      
             
             
         
 
         
-        {!!openModalP && 
+        {/* {!!openModalP && 
             <Modal>
             <FormPaciente
             setLoading={setLoading}
@@ -220,7 +197,7 @@ function App() {
                 addPaciente={addPaciente}
                 pacientes={pacientes}
             />
-            </Modal>}
+            </Modal>} */}
 
 
         {!!openModalDelete && 
@@ -250,11 +227,12 @@ function App() {
             </Modal>}
 
         <CreateTodoButton
+            onClick={()=>navigate('/NewPacientePage')}
 
-           loading={loading}
-            setOpenModalP = {setOpenModalP}
-            setShowPaciente = {setShowPaciente}
-            showPaciente = {showPaciente}
+        //    loading={loading}
+            // setOpenModalP = {setOpenModalP}
+            // setShowPaciente = {setShowPaciente}
+            // showPaciente = {showPaciente}
             /* setOpenModalS = {setOpenModalS} */
         />
         
@@ -265,4 +243,4 @@ function App() {
 )
 }
 
-export default App;
+export  {PacientesPage};
