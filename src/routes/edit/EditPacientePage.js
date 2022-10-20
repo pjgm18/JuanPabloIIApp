@@ -29,8 +29,8 @@ function EditPacientePage(){
             pacienteToEdit={pacienteToEdit}
             pacientes={pacientes}
             onSubmit={(form)=>{
-                console.log(form);
-                editPaciente({form,id})}}
+            console.log(form);
+            editPaciente({form,id})}}
             setLoading={setLoading}
             loading={loading}
             />

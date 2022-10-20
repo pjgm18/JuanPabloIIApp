@@ -42,8 +42,9 @@ function usePacientes(){
 const addPaciente = (form) => {
   // const newPaciente = [...paciente]
   // newPaciente.push(form)
-  // savePaciente(newPaciente)
+  // savePaciente(newPaciente) 
   savePaciente(form)
+
   
 }
  
@@ -110,33 +111,25 @@ if((!searchValueName.length && !searchValueId.length) >=1){
  
 
   
-          if(!!pacienteSeleccionado.length && !!showPacienteDetails && !loading){
-          
+    if(!!pacienteSeleccionado.length && !!showPacienteDetails && !loading){
+    
 
-            pacienteSeleccionado = searchedPaciente.filter(p => {
-            const pacienteId = JSON.stringify(p._id)        
-          
-            const validacion = pacienteId.includes(pacienteSeleccionado[0]._id)
-            return validacion})
-            
-          }
-       
-
-         
-          
-          
- 
-
+      pacienteSeleccionado = searchedPaciente.filter(p => {
+      const pacienteId = JSON.stringify(p._id)        
+    
+      const validacion = pacienteId.includes(pacienteSeleccionado[0]._id)
+      return validacion})
+      
+    }
+  
   const showDetails = (id)=>{
-    
-    
     const pacienteDetails = searchedPaciente.filter(p => {
-    const pacienteId = JSON.stringify(p.identificacion)
-    
+    const pacienteId = p._id
     
     const validacion = pacienteId.includes(id)
     return validacion})
-    setpacienteSelected ([...pacienteDetails])
+    return pacienteDetails
+    
 
     
       

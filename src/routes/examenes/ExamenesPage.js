@@ -1,11 +1,11 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 
-function HomePage() {
+function ExamenesPage() {
   
     return (
   
-          <h1>Home Page</h1>
+          <h1>Examenes Page</h1>
 
           
           
@@ -19,4 +19,4 @@ function HomePage() {
 //       </li>
 //     );
 //   }
-export  {HomePage};
+export  {ExamenesPage};

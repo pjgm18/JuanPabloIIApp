@@ -2,8 +2,8 @@ import React from "react";
 import './TodoForm.css'
 import { useNavigate} from 'react-router-dom'
 
-function FormPaciente({setOpenModalP,addPaciente,pacientes,setLoading}){
-    const navigate = useNavigate()
+function FormPaciente({addPaciente,pacientes}){
+    const navigate = useNavigate() 
     
     const [form, setForm] = React.useState({
         nombre:'',
@@ -44,10 +44,9 @@ function FormPaciente({setOpenModalP,addPaciente,pacientes,setLoading}){
         return(currentDate)
     }
    
-    
-
-    
     const onSubmit = (event)=>{
+        
+
         // No vamos a recargar la pagina o tratar de enviar nuestros datos a alguna parte
         // Validamos que no hayan campos requeridos vacios
         if (!form) {
@@ -67,14 +66,16 @@ function FormPaciente({setOpenModalP,addPaciente,pacientes,setLoading}){
                 
                 } else {
                     event.preventDefault()
-                    setForm()
+                    // setForm()
+                    console.log('aceptar');
                     addPaciente(form)
-                    setOpenModalP(false)
+                    navigate('/pacientes')
                     
                   }   
          
        
-    }}
+        }
+    }
 
     return(
         <form onSubmit={onSubmit}>

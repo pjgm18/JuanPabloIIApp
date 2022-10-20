@@ -1,4 +1,6 @@
 import React from "react";
+import {useNavigate} from 'react-router-dom'
+
 import './TodoForm.css'
 
 function DeleteModal({
@@ -8,21 +10,19 @@ function DeleteModal({
     setShowPacienteDetails
 })
 
-
 {
-    console.log('id')
-        console.log(id)
     
-
-   
+   const navigate = useNavigate()
 
     const onCancel = ()=>{
         setOpenModalDelete(false)
     }
     const acept = (id)=>{
-         setOpenModalDelete(false)
+        setOpenModalDelete(false)
         deletePaciente(id)
+        navigate('/pacientes')
         setShowPacienteDetails(false)
+        
         // setOpenModalDelete(false)
         
         

@@ -28,7 +28,7 @@ function EditModal({
   
 
     const onCancel = ()=>{
-        navigate('/') 
+        navigate(-1) 
     }
     const onSubmit = (event)=>{
         // No vamos a recargar la pagina o tratar de enviar nuestros datos a alguna parte
@@ -43,8 +43,8 @@ function EditModal({
                
                 event.preventDefault()
                 // setLoading(true)
-               onSubmitt(form)
-                navigate('/pacientes') 
+                onSubmitt(form)
+                navigate(-1) 
 
                 
                  

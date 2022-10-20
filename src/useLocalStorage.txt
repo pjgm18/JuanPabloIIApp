@@ -175,3 +175,108 @@ const cosita = async (id)=>{
 }
   
   export { useLocalStorage}
+
+
+
+
+**********************************************************
+{ showPaciente && 
+        <>
+          <h2>Pacientes</h2>
+          {!showPacienteDetails && 
+          <>
+          <PacienteSearch
+          setSearchValueName={setSearchValueName}
+          setSearchValueId={setSearchValueId}
+          />
+          <Table
+          loading={loading}
+          >
+            {searchedPaciente.map(p=>(
+              <TablaPaciente
+              loading={loading}
+                key={p.identificacion}
+                nombre ={p.nombre}
+                id = {p.identificacion}
+                onShowDetails={setShowPacienteDetails}
+                showDetails={showDetails}
+              />
+              ))
+            }
+                               
+          </Table>
+         
+          
+          </>
+          }
+
+          {showPacienteDetails && 
+          <>
+            <PacienteList
+          error={error}
+          loading={loading}
+          totalPacientes={totalPacientes}
+          pacienteSeleccionado = { pacienteSeleccionado}
+          searchText={searchValueName}
+          onError={() => <TodosError />}
+          onLoading={() => <TodosLoading />}
+          onEmptyTodos={() => <EmptyTodos />}
+          onEmptySearchResults={
+            (searchText) => 
+              <p>No hay resultados para  <span style={{color:"red"}}
+                >
+                  {searchText}
+                </span>
+              </p>
+          }
+          
+        
+            >
+          {/* Render function */}
+           {p =>(    
+              <PacienteItem 
+              key = {p.identificacion} // Identificador unico
+              name = {p.nombre}
+              apellido = {p.apellido}
+              nacimiento = {p.nacimiento}
+              identificacion = {p.identificacion}
+              telefono = {p.telefono}
+              direccion = {p.direccion}
+              eps = {p.eps}
+              sintomatologia = {p.sintomatologia}
+              examenes = {p.examenes}
+              correo = {p.correo}
+              registro = {p.registro}
+              onDelete = {()=>{setOpenModalDelete(true)
+              setConfirm(p._id)}}
+              
+              onEdit = {()=>{setOpenModalEdit(true)
+               setConfirm(p._id)}
+               }
+            />
+          )
+          }
+
+          </PacienteList>
+            <button
+              onClick= {()=>{setShowPacienteDetails(false)}}
+            >
+              Regresar
+            </button>
+          </>} 
+           
+            
+          
+        </>
+
+      }
+            
+
+
+
+
+
+
+
+
+

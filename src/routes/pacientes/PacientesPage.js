@@ -18,7 +18,7 @@ import { EditModal}  from "../../ui/TodoForm/EditModal"
 
 import { Table } from "../../ui/Table";
 import { TablaPaciente } from "../../ui/TablaPaciente";
-import {useNavigate} from 'react-router-dom'
+import {useNavigate,Outlet} from 'react-router-dom'
 import { usePacientes } from "../usePacientes";
 
 function PacientesPage() {
@@ -79,17 +79,8 @@ if(loading){
 
     <React.Fragment>
       
-      <TodoHeader>
-        <Titulo/>
-      </TodoHeader>
       
-      
-
-
-      
-
     
-     
         <>
           <h2>Pacientes</h2>
           {!showPacienteDetails && 
@@ -98,23 +89,26 @@ if(loading){
           setSearchValueName={setSearchValueName}
           setSearchValueId={setSearchValueId}
           />
+          
           <Table
           loading={loading}
           >
             {searchedPaciente.map(p=>(
               <TablaPaciente
-              loading={loading}
+                loading={loading}
                 key={p.identificacion}
                 nombre ={p.nombre}
                 id = {p.identificacion}
-                onShowDetails={setShowPacienteDetails}
+                // onShowDetails={setShowPacienteDetails}
+                onShowDetails={()=>navigate(`/pacientes/${p._id}`)}
+               
                 showDetails={showDetails}
               />
               ))
             }
                                
           </Table>
-         
+         <Outlet/>
           
           </>
           }
@@ -227,7 +221,7 @@ if(loading){
             </Modal>}
 
         <CreateTodoButton
-            onClick={()=>navigate('/NewPacientePage')}
+            onClick={()=>navigate('/new')}
 
         //    loading={loading}
             // setOpenModalP = {setOpenModalP}
