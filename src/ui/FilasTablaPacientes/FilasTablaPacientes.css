@@ -1,0 +1,16 @@
+.table__top-left {
+    cursor: pointer;
+    color: green;
+    border-bottom: 2px solid black;
+  }
+   
+  .table__top-right {
+    border-bottom: 2px solid black;
+  } 
+  
+  table th,
+  table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }

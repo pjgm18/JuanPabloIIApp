@@ -1,22 +1,45 @@
 import React from "react";
-import './TodoForm.css'
+// import './TodoForm1.css'
 import { useNavigate} from 'react-router-dom'
+const fechaJsToSql = (fecha) => {
+    // console.log(fecha)
+    const mes = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    const dias = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
+    const horas = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'];
+    const minutosSegundos = ['00', '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49', '50', '51', '52', '53', '54', '55', '56', '57', '58', '59'];
+    // console.log(fecha.getFullYear() + "-" + mes[fecha.getMonth()] + "-" + dias[fecha.getDate() - 1] + " " + horas[fecha.getHours()] + ":" + minutosSegundos[fecha.getMinutes()] + ":" + minutosSegundos[fecha.getSeconds()])
+    return fecha.getUTCFullYear() + "-" + mes[fecha.getUTCMonth()] + "-" + dias[fecha.getUTCDate() - 1] + " " + horas[fecha.getUTCHours()] + ":" + minutosSegundos[fecha.getUTCMinutes()] + ":" + minutosSegundos[fecha.getUTCSeconds()];
+}
 
 function FormPaciente({addPaciente,pacientes}){
     const navigate = useNavigate() 
-    
+           
     const [form, setForm] = React.useState({
         nombre:'',
-        apellido:'',
-        nacimiento:'',
-        identificacion:'',
+        apellidos:'',
+        cedula:'',
         telefono:'',
+        fechaNacimiento:'',
+        sexo:'',
+        email:'',
         direccion:'',
-        eps:'',
-        sintomatologia:'',
-        examenes:'',
-        correo:'',
-        registro:'',})
+        medico:'',
+        medicamentos:'',
+        afiliacion:'',
+        fechaConsulta:fechaJsToSql(new Date()),
+        })
+    // const [form, setForm] = React.useState({
+    //     nombre:'',
+    //     apellido:'',
+    //     cedula:'',
+    //     nacimiento:'',
+    //     telefono:'',
+    //     direccion:'',
+    //     eps:'',
+    //     sintomatologia:'',
+    //     examenes:'',
+    //     correo:'',
+    //     registro:'',})
 
 
     const onChange=(event)=>{
@@ -57,19 +80,18 @@ function FormPaciente({addPaciente,pacientes}){
             // El form.id es de tipo strin....validar eso
             const pacienteExist = pacientes.filter(p => {
                 
-                return p.identificacion == form.identificacion
+                return p.cedula == form.cedula
             })
-            console.log(pacienteExist);
             if (pacienteExist.length >= 1) {
-                alert('Ya existe un paciente con la misma identificacion')
+                alert('Ya existe un paciente con la misma cedula')
                 event.preventDefault()
                 
                 } else {
                     event.preventDefault()
                     // setForm()
-                    console.log('aceptar');
+                   
                     addPaciente(form)
-                    navigate('/pacientes')
+                    // navigate('/pacientes')
                     
                   }   
          
@@ -78,7 +100,8 @@ function FormPaciente({addPaciente,pacientes}){
     }
 
     return(
-        <form onSubmit={onSubmit}>
+        <div className="container"> 
+          <form onSubmit={onSubmit}>
             <label>Nombre</label>
             <input className="input" 
                 required
@@ -87,52 +110,99 @@ function FormPaciente({addPaciente,pacientes}){
                 placeholder="Nombre"
                 name="nombre"
             />
-             <label>Apellido</label>
+             <label>Apellidos</label>
             <input className="input" 
                 required
-                value = {form.apellido}
+                value = {form.apellidos}
                 onChange={onChange}
-                placeholder="Apellido"
-                name="apellido"
+                placeholder="Apellidos"
+                name="apellidos"
             />
-            
-            <label>Fecha De Nacimiento</label>
-            <input className="nacimiento"
-                
-                type="date"
-                max={getCurrentDate()}
-                name="nacimiento"
-                /* value = {form.nacimiento} */
-                onChange={onChange}
-                placeholder="Fecha De Nacimiento"
-            />
-             <label>Identificacion</label>
+            <label>Cedula</label>
             <input className="input"
                 required
                 type="number"
-                name="identificacion"
-                value = {form.identificacion}
+                name="cedula"
+                value = {form.cedula}
                 onChange={onChange}
-                placeholder="Identificacion"
+                placeholder="cedula"
+            />
+            <label>Fecha De Nacimiento</label>
+            <input className="nacimiento"
+                type="date"
+                max={getCurrentDate()}
+                name="fechaNacimiento"
+                value = {form.fechaNacimiento} 
+                onChange={onChange}
+                placeholder="Fecha De Nacimiento"
+            />
+             <label>Sexo</label>
+            <input className="input"
+                name="sexo"
+                 value = {form.sexo} 
+                onChange={onChange}
+                placeholder="Sexo"
             />
              <label>Telefono</label>
             <input className="input"
-                
                 type="number"
                 name="telefono"
                 value = {form.telefono}
                 onChange={onChange}
                 placeholder="Telefono"
             />
-            <label>Direccion</label>
+            
+           
+            <label>Email</label>
             <input className="input"
                 
+                name="correo"
+                type='email'
+                value = {form.correo}
+                onChange={onChange}
+                placeholder="Email"
+            />
+             <label>Direccion</label>
+            <input className="input"
                 name="direccion"
                 value = {form.direccion}
                 onChange={onChange}
                 placeholder="Direccion"
             />
-            <label>EPS</label>
+             <label>Medico</label>
+            <input className="input"
+                
+                name="medico"
+                value = {form.medico}
+                onChange={onChange}
+                placeholder="medico"
+            />
+             <label>Medicamentos</label>
+            <input className="input"
+                name="medicamentos"
+                value = {form.medicamentos}
+                onChange={onChange}
+                placeholder="medicamentos"
+            />
+             <label>Afiliacion</label>
+            <input className="input"
+                name="afiliacion"
+                value = {form.afiliacion}
+                onChange={onChange}
+                placeholder="afiliacion"
+            />
+          
+            
+
+
+
+
+
+            
+             
+            
+           
+            {/* <label>EPS</label>
             <input className="input"
                 
                 name="eps"
@@ -155,17 +225,9 @@ function FormPaciente({addPaciente,pacientes}){
                 value = {form.examenes}
                 onChange={onChange}
                 placeholder="Examenes"
-            />
+            /> */}
             
-            <label>Email</label>
-            <input className="input"
-                
-                name="correo"
-                type='email'
-                value = {form.correo}
-                onChange={onChange}
-                placeholder="Email"
-            />
+            
             
             <div className="TodoForm-buttonContainer">
                 <button 
@@ -182,7 +244,9 @@ function FormPaciente({addPaciente,pacientes}){
                 Añadir
                 </button>
             </div>
-        </form>
+        </form>  
+        </div>
+        
     )
 }
 

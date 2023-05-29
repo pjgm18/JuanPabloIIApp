@@ -1,0 +1,52 @@
+/* Estilos generales del formulario */
+.formulario {
+    width: 400px;
+    margin: 0 auto;
+  }
+  
+  /* Estilos de los campos de entrada */
+  .formulario .input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos de las etiquetas de los campos */
+  .formulario label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  /* Estilos para la fecha de nacimiento */
+  .formulario .nacimiento {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilos para los botones */
+  .formulario .TodoForm-buttonContainer {
+    margin-top: 15px;
+    text-align: center;
+  }
+  
+  .formulario .TodoForm-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  
+  .formulario .TodoForm-button--cancel {
+    background-color: #808080;
+  }
+  
+  /* Estilos para mensajes de error */
+  .formulario .error {
+    color: red;
+    font-size: 12px;
+  }
+  

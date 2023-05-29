@@ -1,0 +1,26 @@
+.back-button {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #333;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .back-button svg {
+    width: 30px;
+    height: 30px;
+    margin-right: 5px;
+  }
+  
+  .back-button span {
+    font-size: 16px;
+  }
+  
+  .back-button:hover {
+    color: green;
+  }
+  

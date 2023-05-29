@@ -1,31 +1,60 @@
-form {
-    width: 90%;
-    max-width: 300px;
-    max-height: 500px;
-    background-color: #fff;
-    padding: 33px 40px;
-    display: flex;
-/*     justify-content: center;
- */    align-items: center;
-    flex-direction: column;
-    overflow-y: scroll;
-  }
-  .nacimiento {
-    padding: 10px;
-    margin-bottom: 20px;
-  }
-  
-  label {
-    text-align: center;
-    font-weight: bold;
-    font-size: 20px;
-    color: #1E1E1F;
-  }
 
-  .input{
-    margin-bottom: 20px;
-  }
-  
+
+/* Estilos generales del formulario */
+form {
+  width: 400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+/* Estilos de los campos de entrada */
+form .input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+/* Estilos de las etiquetas de los campos */
+form label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Estilos para la fecha de nacimiento */
+form .nacimiento {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+}
+
+/* Estilos para los botones */
+form .TodoForm-buttonContainer {
+  margin-top: 15px;
+  text-align: center;
+}
+
+form .TodoForm-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+form .TodoForm-button--cancel {
+  background-color: #808080;
+}
+
+/* Estilos para mensajes de error */
+form .error {
+  color: red;
+  font-size: 12px;
+}
+
   
   textarea {
     background-color: #F9FBFC;

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from 'react-router-dom';
-
+import './menu.css'
 
 function Menu() {
   
@@ -8,10 +8,12 @@ function Menu() {
   
    
    
-          <ul>
+        <div className="menu">
+            <ul>
             <li> <Link to={`/pacientes`}>Pacientes</Link></li>
             <li><Link to={`/examenes`}>Examenes</Link></li>
           </ul>
+        </div>
  
           
    

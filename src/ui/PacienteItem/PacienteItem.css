@@ -47,3 +47,58 @@
   .Icon-delete:hover {
     color: red;
   }
+
+  
+
+
+  .PacienteItem-container {
+    display: flex;
+    justify-content: center;
+    /* background-color: #FAFAFA; */
+    position: relative;
+    /* display: flex; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    margin-top: 24px;
+    /* box-shadow: 0px 5px 50px rgba(32, 35, 41, 0.15); */
+  }
+  
+  .PacienteItem-table {
+    width: 80%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
+  }
+  
+  .PacienteItem-table th,
+  .PacienteItem-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .PacienteItem-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .PacienteItem-table td {
+    color: green;
+  }
+  
+  .PacienteItem-table th:first-child,
+  .PacienteItem-table td:first-child {
+    border-left: none;
+  }
+  
+  .PacienteItem-table th:last-child,
+  .PacienteItem-table td:last-child {
+    border-right: none;
+  }
+  
+  .PacienteItem-table tr:last-child th,
+  .PacienteItem-table tr:last-child td {
+    border-bottom: none;
+  }
+  

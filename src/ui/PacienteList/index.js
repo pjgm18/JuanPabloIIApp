@@ -21,20 +21,16 @@ Para hacer esto se utiliza la propiedad especial children que encierra todo el c
 
 function PacienteList(props){
     const renderFunc = props.children || props.render
- 
-    
-    return(
 
-        
-       
+    return(
     <section className="PacienteList-container">
         
             {props.error && props.onError()}
-            {props.loading && props.onLoading()}
-
+            {(props.cargando2 )&& props.onLoading()}
             {/* {(!props.loading && !props.totalTodos)&&props.onEmptyTodos()}
             {(!!props.totalTodos && !props.searchedTodos.length) && props.onEmptySearchResults(props.searchText)} */}
-            {!props.loading && props.pacienteSeleccionado.map(renderFunc)}
+            {!props.cargando2 && props.pacienteSeleccionado.map(renderFunc)}
+            
     </section>
 )
 }

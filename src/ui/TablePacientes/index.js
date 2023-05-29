@@ -2,10 +2,12 @@ import React from "react";
 import './Table.css'
 
 
-function Table({children,loading}){
-    
+function TablePacientes({children,cargando}){
+    // cargando = false
+    !!cargando && console.log('cargando es ' + cargando);
     return(
-     <div className={`main-table-container ${!!loading &&"main-table-container--loading"}`}>
+     <div className={`main-table-container ${!!cargando &&"main-table-container--loading"}`}>
+        <h1>{cargando}</h1>
         <table>
             <tbody>
             <tr>
@@ -14,11 +16,10 @@ function Table({children,loading}){
             </tr>
              {children}  
             </tbody>
-            
         </table>
      </div>
      )
     
 }
 
-export { Table }
+export { TablePacientes }

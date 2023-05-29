@@ -19,8 +19,10 @@ function DeleteModal({
     }
     const acept = (id)=>{
         setOpenModalDelete(false)
+        console.log(id);
+        console.log('delete modal');
         deletePaciente(id)
-        navigate('/pacientes')
+        // navigate('/pacientes')
         setShowPacienteDetails(false)
         
         // setOpenModalDelete(false)
